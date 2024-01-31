@@ -1,0 +1,52 @@
+﻿Pasos para instalar un servidor Weblogic con dominio SOA.
+
+Requerimientos:
+	1. Tener acceso o instalado una base de datos oracle y un usuario con rol SYSDBA.
+		(En mi caso uso DB Oracle Express y usuario: SYSTEM as SYSDBA)
+	2. Tener insalado el Oracle JDeveloper Studio ya que allí están los scripts de instalación de la Utilidad de Creacion de Repositorios (RCU) y el Weblogic.
+
+	
+Pasos:
+	1. Crear el RCU. Este repositorio contiene los Esquemas y datos del dominio SOA a instalar.
+	
+		- Ejecutar en una consola de windows con permisos de administrador el siguiente script.
+		
+		%OFM_HOME%\oracle_common\bin\rcu.bat
+		
+		OFM_HOME = Directorio de instalación del Oracle JDeveloper Studio.
+		
+		Se ejecutará el asistente de instalación del RCU. Se deben seguir los pasos y seleccionar los dominios a instalar (SOA, OSB y Manager).
+		
+	2. Instalar el servidor Weblogic.
+	
+		- Ejecutar en una Consola de Comandos con permisos de Administrador el siguiente script.
+		
+		%OFM_HOME%\oracle_common\common\bin\config.cmd
+		
+		Se iniciará el asistente de instalación de Weblogic. 
+		Se le debe asignar un nombre de dominio relacionado con el objetivo del mismo(SOA_DOMAIN)
+		Se deben seguir los pasos e ingresar los datos del RCU creado en el paso 1.
+		
+	3. Iniciar el Weblogic y los servidores manejados.
+	
+		3.1 Iniciar el Weblogic Manager.
+		
+		- Ejecutar en una Consola de Comandos con permisos de Administrador el siguiente script.
+		
+		%OFM_HOME%\user_projects\domains\SOA_DOMAIN\bin\startWebLogic.cmd
+		
+		SOA_DOMAIN = Nombre del dominio asignado en el punto de instalación 2.
+		
+		Por defecto se configuran con el puerto 7001
+		
+		http://localhost:7001/console
+		
+		3.1 Iniciar los Servidores Manejados.
+		
+		- Ejecutar en una Consola de Comandos con permisos de Administrador el siguiente script.
+		
+		%OFM_HOME%\user_projects\domains\SOA_DOMAIN\bin\startManagedWebLogic.cmd soa_server1
+		%OFM_HOME%\user_projects\domains\SOA_DOMAIN\bin\startManagedWebLogic.cmd osb_server1
+		
+		http://localhost:7001/em
+		http://localhost:7001/sbconsole
